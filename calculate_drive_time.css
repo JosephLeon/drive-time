@@ -1,0 +1,52 @@
+.block-calculate-drive-time .drive-time-container {
+  border-right: 1px solid #523824;
+  border-left: 1px solid #523824;
+  border-bottom: 1px solid #523824;
+  padding: 15px;
+}
+
+.widget-header {
+  //background: url(../../themes/lifetime/images/widget-decorative-border.png) no-repeat top center;
+  height: 20px;
+  margin-bottom: -14px;
+}
+
+.widget-title {
+  font-size: 24px;
+  text-align: center;
+  padding: 10px 0 20px 0;
+}
+
+.result-container {
+  display: none;
+}
+
+.origin-container input {
+  margin: 0 auto;
+  display: block;
+  width: 100%;
+  background: #F9F3E9;
+  border: 1px solid #4E3016;
+  padding: 8px;
+}
+
+.calculate-container button {
+  margin: 20px auto 10px auto;
+  display: block;
+  text-transform: uppercase;
+  width: 134px;
+  color: black;
+  height: 40px;
+  font-weight: 700;
+  font-size: 14px;
+  border: 1px #b1730e solid;
+  //background: url(../../themes/lifetime/images/submit-background.png) center center repeat;
+  letter-spacing: 1px;
+}
+
+.result-jquery-container p {
+  display: none;
+  text-align: center;
+  margin: 0 auto;
+  /*width: 100%;*/
+}

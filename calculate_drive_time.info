@@ -1,0 +1,12 @@
+name = Calculate Drive Time
+description = Calculates the drive time to a home, takes input starting address from user
+package = Poetic
+core= 7.x
+
+files[] = calculate_drive_time.module
+
+configure = admin/config/development/calculate_drive_time
+
+stylesheets[all][] = calculate_drive_time.css
+
+scripts[] = calculate_drive_time.js

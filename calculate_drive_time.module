@@ -1,0 +1,85 @@
+<?php
+
+// create block for map
+function calculate_drive_time_block_info() {
+  $blocks['calculate_drive_time'] = array(
+    'info' => t('Calculate Drive Time Block'),
+  );
+  return $blocks;
+}
+
+// call map in the created block
+function calculate_drive_time_block_view($delta = '') {
+  $blocks = array();
+  switch ($delta) {
+    case 'calculate_drive_time':
+      $blocks['content'] = '
+        <div class="widget-header"></div>
+        <div class="drive-time-container">
+          <h3 class="widget-title">Calculate Your Drive Time</h3>
+          <div class="origin-container">
+              <input id="origin-field" type="text" autocomplete="off" name="destination" placeholder="Destination">
+          </div>
+          <div class="calculate-container">
+             <button class="calculate-button">Calculate</button>
+          </div>
+
+          <div class="result-container">
+              <input type="text" id="result-field" autocomplete="off" name="result" placeholder="Result">
+          </div>
+
+          <div class="result-jquery-container">
+            <p id="result-jquery-field">Placeholder</p>
+          </div>
+        </div>
+      ';
+    break;
+  }
+  return $blocks;
+}
+
+// create admin page
+function calculate_drive_time_menu() {
+  $items['admin/config/development/calculate_drive_time'] = array(
+    'title' => 'Calculate Drive Time',
+    'description' => 'Calculate drive time settings.',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('calculate_drive_time_form'),
+    'access arguments' => array('access administration pages'),
+    'type' => MENU_NORMAL_ITEM,
+  );
+  return $items;
+}
+
+// create form for getting custom selector
+function calculate_drive_time_form($form, &$form_state) {
+  $form['calculate_drive_time_address_selector'] = array(
+    '#type' => 'textarea',
+    '#title' => t('jQuery address selector'),
+    '#default_value' => variable_get('calculate_drive_time_address_selector', '#address'),
+    '#description' => t('Retreive the base address using jQuery selector.'),
+    '#required' => TRUE,
+  );
+  // runs on submit function
+  $form['#submit'][] = 'on_submit_action';
+  return system_settings_form($form);
+}
+// on submit function
+function on_submit_action() {
+  // place any code here in future
+}
+
+function calculate_drive_time_page_build(&$page) {
+  $starting_address = variable_get('calculate_drive_time_address_selector');
+  dsm($starting_address);
+  //dsm($page);
+  $page['content']['disclaimer'] = array(
+    '#markup' => t('
+      <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false"></script>
+      <script type="text/javascript" charset="utf-8" async defer>
+        var startingAddress = jQuery("' . $starting_address . '").text();
+      </script>
+      '),
+    '#weight' => -10,
+  );
+}
