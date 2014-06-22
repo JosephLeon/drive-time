@@ -83,3 +83,19 @@ function calculate_drive_time_page_build(&$page) {
     '#weight' => -10,
   );
 }
+
+function calculate_drive_time_check_if_address_module_exists() {
+  $address_module_status = db_query("SELECT name,status FROM system WHERE name='addressfield';");
+
+  if ($address_module_status = TRUE) {
+    dpm('address module exists');
+    dpm($address_module_status);
+  } else {
+    dpm('address module not found');
+  }
+
+  return;
+}
+
+calculate_drive_time_check_if_address_module_exists();
+
