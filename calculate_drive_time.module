@@ -60,6 +60,14 @@ function calculate_drive_time_form($form, &$form_state) {
     '#description' => t('Retreive the base address using jQuery selector.'),
     '#required' => TRUE,
   );
+  $form['use_address_field'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('Use Address module field value'),
+    '#default_value' => variable_get('use_address_field'),
+    '#description' => t('Checking this will cause the module to use the value
+    of an address field on the node the block exists on instead of the 
+    selector'),
+  );
   // runs on submit function
   $form['#submit'][] = 'on_submit_action';
   return system_settings_form($form);
@@ -72,23 +80,33 @@ function on_submit_action() {
 function calculate_drive_time_page_build(&$page) {
   $address_module_status = db_query("SELECT name,status FROM system WHERE name='addressfield';");
   $node = menu_get_object();
-  $nid = $node->nid;
+  if (isset($node)) {
+    $nid = $node->nid;
+  }
 
-  if ((isset($nid)) && ($address_module_status = 1)) {
-    $get_this_nodes_address_field_values = db_query("SELECT 
-      entity_id,
-      field_address_thoroughfare,
-      field_address_postal_code,
-      field_address_dependent_locality,
-      field_address_locality,
-      field_address_administrative_area
-      FROM 
-      field_data_field_address
-      WHERE 
-      (entity_id = $nid)")->fetchAssoc();
+  $use_address_module_checked = variable_get('use_address_field');
 
-    unset($get_this_nodes_address_field_values['entity_id']);
-    $starting_address = implode(" ", $get_this_nodes_address_field_values);
+  if ($use_address_module_checked = 1) {
+    if ($address_module_status = 1) {
+      if (isset($nid)) {
+        $get_this_nodes_address_field_values = db_query("SELECT 
+          entity_id,
+          field_address_thoroughfare,
+          field_address_postal_code,
+          field_address_dependent_locality,
+          field_address_locality,
+          field_address_administrative_area
+          FROM 
+          field_data_field_address
+          WHERE 
+          (entity_id = $nid)")->fetchAssoc();
+
+        unset($get_this_nodes_address_field_values['entity_id']);
+        $starting_address = implode(" ", $get_this_nodes_address_field_values);
+      }
+    } else {
+      drupal_set_message(t('An error occured and we couldnt detect the Address module. Is the Address module turned on?'), 'error');
+    }
   } else {
     $address_selector = variable_get('calculate_drive_time_address_selector');
     $starting_address = '"jQuery("' . $address_selector . '").text()"';
