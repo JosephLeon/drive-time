@@ -70,36 +70,33 @@ function on_submit_action() {
 }
 
 function calculate_drive_time_page_build(&$page) {
-  $starting_address = variable_get('calculate_drive_time_address_selector');
   $address_module_status = db_query("SELECT name,status FROM system WHERE name='addressfield';");
   $node = menu_get_object();
   dpm($node);
   $nid = $node->nid;
 
   if ((isset($nid)) && ($address_module_status = 1)) {
-    dpm($nid);
     $get_this_nodes_address_field_values = db_query("SELECT 
       entity_id,
-      field_address_thoroughfare
+      field_address_thoroughfare,
+      field_address_postal_code,
+      field_address_dependent_locality,
+      field_address_locality,
+      field_address_administrative_area
       FROM 
       field_data_field_address
       WHERE 
       (entity_id = $nid)")->fetchAssoc();
       dpm($get_this_nodes_address_field_values);
+
+    unset($get_this_nodes_address_field_values['entity_id']);
+    $starting_address = implode(" ", $get_this_nodes_address_field_values);
+    dpm($starting_address);
+  } else {
+    $starting_address = variable_get('calculate_drive_time_address_selector');
   }
   
-  /*$address_entity_ids = db_query("
-    SELECT entity_id 
-    FROM field_data_field_address")->fetchCol();
-  dpm($address_entity_ids);*/
-
-  if ($address_module_status = TRUE) {
-  
-  }
-
-  //dpm($get_this_nodes_address_field_values);
-  //dsm($starting_address);
-  dsm($page);
+  //dsm($page);
 
   $page['content']['disclaimer'] = array(
     '#markup' => t('
