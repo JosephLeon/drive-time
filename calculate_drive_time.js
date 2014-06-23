@@ -8,12 +8,15 @@
 
       $('.block-calculate-drive-time .calculate-button', context).click(function () {
         var directionsService = new google.maps.DirectionsService();
+        console.log(directionsService);
         var destination = $(originField).val();
+        console.log(destination);
         var request = {
           origin: startingAddress,
           destination: destination,
           travelMode: google.maps.TravelMode.DRIVING
         };
+        console.log(request);
         directionsService.route(request, function(result, status) {
           if (status == google.maps.DirectionsStatus.OK) {
               $(targetField).text(result.routes[0].legs[0].duration.text).slideDown();
