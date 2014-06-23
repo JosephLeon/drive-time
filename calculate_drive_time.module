@@ -75,17 +75,23 @@ function calculate_drive_time_page_build(&$page) {
   $node = menu_get_object();
   dpm($node);
   $nid = $node->nid;
-  dpm($nid);
 
-  /*$get_this_nodes_address_field_values = db_query("
-    SELECT entity_id 
-    FROM field_data_field_address
-    WHERE (field_data_field_address.entity_id = 1)")->fetchCol();*/
+  if ((isset($nid)) && ($address_module_status = 1)) {
+    dpm($nid);
+    $get_this_nodes_address_field_values = db_query("SELECT 
+      entity_id,
+      field_address_thoroughfare
+      FROM 
+      field_data_field_address
+      WHERE 
+      (entity_id = $nid)")->fetchAssoc();
+      dpm($get_this_nodes_address_field_values);
+  }
   
-  $address_entity_ids = db_query("
+  /*$address_entity_ids = db_query("
     SELECT entity_id 
     FROM field_data_field_address")->fetchCol();
-  dpm($address_entity_ids);
+  dpm($address_entity_ids);*/
 
   if ($address_module_status = TRUE) {
   
@@ -105,29 +111,4 @@ function calculate_drive_time_page_build(&$page) {
     '#weight' => -10,
   );
 }
-
-function calculate_drive_time_check_if_address_module_exists() {
-  $address_module_status = db_query("SELECT name,status FROM system WHERE name='addressfield';");
-  //if (arg(0) == 'node' && is_numeric(arg(1))) $current_nid = arg(1);
-
-  $node = menu_get_object();
-  dpm($node);
-  //print var_dump($GLOBALS);
-  //dpm($GLOBALS);
-
-  if ($address_module_status = TRUE) {
-    dpm('address module exists');
-    dpm($address_module_status);
-    //dpm($current_nid);
-    //dpm($node);
-    //dpm(arg());
-    //dpm($nid);
-  } else {
-    dpm('address module not found');
-  }
-
-  return;
-}
-
-//calculate_drive_time_check_if_address_module_exists();
 
