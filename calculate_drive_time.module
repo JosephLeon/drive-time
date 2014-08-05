@@ -124,7 +124,6 @@ function calculate_drive_time_page_build(&$page) {
         '),
       '#weight' => -10,
     );
-    dpm($page);
   }
 }
 
