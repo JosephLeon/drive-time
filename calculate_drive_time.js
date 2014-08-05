@@ -3,8 +3,10 @@
     attach: function (context, settings) {
       // Your Javascript code goes here
 
-      var originField = '#origin-field' // Field you want the origin pulled from
-      var targetField = '#result-jquery-field' //Field you would like to have distance appear inside
+      // Field you want the origin pulled from
+      var originField = '#origin-field';
+      //Field you would like to have distance appear inside
+      var targetField = '#result-jquery-field';
 
       $('.block-calculate-drive-time .calculate-button', context).click(function () {
         var directionsService = new google.maps.DirectionsService();

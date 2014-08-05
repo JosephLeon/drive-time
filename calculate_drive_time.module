@@ -72,6 +72,7 @@ function calculate_drive_time_form($form, &$form_state) {
   $form['#submit'][] = 'on_submit_action';
   return system_settings_form($form);
 }
+
 // on submit function
 function on_submit_action() {
   // place any code here in future
@@ -123,6 +124,7 @@ function calculate_drive_time_page_build(&$page) {
         '),
       '#weight' => -10,
     );
+    dpm($page);
   }
 }
 
