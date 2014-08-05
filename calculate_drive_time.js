@@ -1,8 +1,6 @@
 (function ($) {
   Drupal.behaviors.calculate_drive_time = {
     attach: function (context, settings) {
-      // Your Javascript code goes here
-
       // Field you want the origin pulled from
       var originField = '#origin-field';
       //Field you would like to have distance appear inside
@@ -21,7 +19,7 @@
               $(targetField).text(result.routes[0].legs[0].duration.text).slideDown();
           }
           else {
-            if(destination.length!=0) {
+            if(destination.length!==0) {
               $(targetField).text('Address is invalid!').slideDown();
             }
             else {
